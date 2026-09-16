@@ -13,6 +13,24 @@ pipeline {
                     url: 'https://github.com/olivialzx/springboot-aks-devops.git'
             }
         }
+         stage('Maven Validate') {
+            steps {
+                sh 'mvn validate'
+            }
+        }
 
+        stage('Maven Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+        stage('Maven Compile') {
+            steps {
+                sh 'mvn compile'
+            }
+        }
+
+        
     }
 }
