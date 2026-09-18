@@ -4,11 +4,11 @@ pipeline {
     tools {
         maven 'maven'
     }
-        environment {
-    ACR_SERVER = "oliviacontainerreg2026.azurecr.io"
-    IMAGE_NAME = "springbootjavaapp"
-    IMAGE_TAG = "latest"
-}
+
+    environment {
+        ACR_SERVER = "oliviacontainerreg2026.azurecr.io"
+        IMAGE_NAME = "springbootjavaapp"
+        IMAGE_TAG = "latest"
     }
 
     stages {
