@@ -1,3 +1,4 @@
+```groovy
 pipeline {
     agent any
 
@@ -6,10 +7,9 @@ pipeline {
     }
 
     environment {
-    ACR_SERVER = "oliviacontainerreg.azurecr.io" 
+        ACR_SERVER = "oliviacontainerreg.azurecr.io"
         IMAGE_NAME = "springbootjavaapp"
         IMAGE_TAG = "latest"
-
     }
 
     stages {
@@ -80,10 +80,26 @@ pipeline {
                             --password-stdin
 
                         docker push ${ACR_SERVER}/${IMAGE_NAME}:${IMAGE_TAG}
+
                         docker logout ${ACR_SERVER}
+                    '''
+                }
+            }
+        }
+
+        stage('Deploy to AKS') {
+            steps {
+                withCredentials([file(
+                    credentialsId: 'kubeconfig',
+                    variable: 'KUBECONFIG'
+                )]) {
+                    sh '''
+                        kubectl apply -f k8s/deployment.yaml
+                        kubectl apply -f k8s/service.yaml
                     '''
                 }
             }
         }
     }
 }
+```
