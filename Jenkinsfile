@@ -80,6 +80,7 @@ pipeline {
                             --password-stdin
 
                         docker push ${ACR_SERVER}/${IMAGE_NAME}:${IMAGE_TAG}
+                        docker logout ${ACR_SERVER}
                     '''
                 }
             }
