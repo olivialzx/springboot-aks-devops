@@ -66,6 +66,14 @@ pipeline {
                 '''
             }
         }
+        stage('Trivy Image Scan') {
+            steps {
+                sh '''
+                    trivy image --severity HIGH,CRITICAL --format table -o trivy-image-report.txt ${ACR_SERVER}/${IMAGE_NAME}:${IMAGE_TAG}
+                    '''
+                }
+            }
+
 
         stage('Docker Push') {
             steps {
