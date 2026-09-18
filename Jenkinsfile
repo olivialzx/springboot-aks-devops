@@ -43,5 +43,10 @@ pipeline {
         }
     }
 }
+        stage('Package with Maven') {
+            steps {
+                sh 'mvn package'
+            }
+        }
     }
 }
