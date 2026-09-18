@@ -37,8 +37,7 @@ pipeline {
             sh '''
                 mvn sonar:sonar \
                   -Dsonar.organization=bootcamp2 \
-                  -Dsonar.projectKey=springbootjavaapp \
-                  -Dsonar.projectName=springbootjavaapp \
+                  -Dsonar.projectKey=olivialzx_springboot-aks-devops                  -Dsonar.projectName=springbootjavaapp \
                   -Dsonar.java.binaries=target/classes
             '''
         }
