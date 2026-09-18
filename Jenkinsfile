@@ -6,9 +6,10 @@ pipeline {
     }
 
     environment {
-        ACR_SERVER = "oliviacontainerreg2026.azurecr.io"
+    ACR_SERVER = "oliviacontainerreg.azurecr.io" 
         IMAGE_NAME = "springbootjavaapp"
         IMAGE_TAG = "latest"
+
     }
 
     stages {
