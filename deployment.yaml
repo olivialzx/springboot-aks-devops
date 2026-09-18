@@ -1,4 +1,3 @@
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -13,9 +12,9 @@ spec:
       labels:
         app: petclinic
     spec:
-    imagePullSecrets:
-     - name: acr-secret
-       containers:
+      imagePullSecrets:
+        - name: acr-secret
+      containers:
         - name: petclinic
           image: oliviacontainerreg.azurecr.io/springbootjavaapp:latest
           ports:
