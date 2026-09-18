@@ -4,11 +4,11 @@ pipeline {
     tools {
         maven 'maven'
     }
-
-    environment {
-        ACR_SERVER = "democontainerreg.azurecr.io"
-        IMAGE_NAME = "springbootjavaapp"
-        IMAGE_TAG = "latest"
+        environment {
+    ACR_SERVER = "oliviacontainerreg2026.azurecr.io"
+    IMAGE_NAME = "springbootjavaapp"
+    IMAGE_TAG = "latest"
+}
     }
 
     stages {
@@ -63,6 +63,24 @@ pipeline {
                 sh '''
                     docker build -t ${ACR_SERVER}/${IMAGE_NAME}:${IMAGE_TAG} .
                 '''
+            }
+        }
+
+        stage('Docker Push') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'acr-creds',
+                    usernameVariable: 'ACR_USER',
+                    passwordVariable: 'ACR_PASS'
+                )]) {
+                    sh '''
+                        echo "$ACR_PASS" | docker login ${ACR_SERVER} \
+                            -u "$ACR_USER" \
+                            --password-stdin
+
+                        docker push ${ACR_SERVER}/${IMAGE_NAME}:${IMAGE_TAG}
+                    '''
+                }
             }
         }
     }
