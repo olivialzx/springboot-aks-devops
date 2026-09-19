@@ -182,21 +182,21 @@ pipeline {
                         variable: 'BREVO_API_KEY'
                     )
                 ]) {
-                    sh """
-                        HTTP_CODE=\\$(curl -s -o /tmp/brevo.out -w '%{http_code}' \
+                    sh '''
+                        HTTP_CODE=$(curl -s -o /tmp/brevo.out -w '%{http_code}' \
                           -X POST https://api.brevo.com/v3/smtp/email \
-                          -H "api-key: \\$BREVO_API_KEY" \
+                          -H "api-key: $BREVO_API_KEY" \
                           -H "Content-Type: application/json" \
                           -d '{
-                            "sender": {"email": "${EMAIL_FROM}"},
-                            "to": [{"email": "${EMAIL_RECIPIENTS}"}],
-                            "subject": "SUCCESS: Jenkins Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                            "textContent": "The pipeline ${env.JOB_NAME} build #${env.BUILD_NUMBER} completed successfully and the deployment ${DEPLOYMENT_NAME} rolled out successfully to AKS. Build URL: ${env.BUILD_URL}"
+                            "sender": {"email": "'"$EMAIL_FROM"'"},
+                            "to": [{"email": "'"$EMAIL_RECIPIENTS"'"}],
+                            "subject": "SUCCESS: Jenkins Pipeline '"$JOB_NAME"' #'"$BUILD_NUMBER"'",
+                            "textContent": "The pipeline '"$JOB_NAME"' build #'"$BUILD_NUMBER"' completed successfully and the deployment '"$DEPLOYMENT_NAME"' rolled out successfully to AKS. Build URL: '"$BUILD_URL"'"
                           }')
 
-                        echo "Brevo responded with HTTP \\$HTTP_CODE"
+                        echo "Brevo responded with HTTP $HTTP_CODE"
                         cat /tmp/brevo.out || true
-                    """
+                    '''
                 }
             }
         }
@@ -211,13 +211,24 @@ pipeline {
                         variable: 'BREVO_API_KEY'
                     )
                 ]) {
-                    sh """
-                        HTTP_CODE=\\$(curl -s -o /tmp/brevo.out -w '%{http_code}' \
+                    sh '''
+                        HTTP_CODE=$(curl -s -o /tmp/brevo.out -w '%{http_code}' \
                           -X POST https://api.brevo.com/v3/smtp/email \
-                          -H "api-key: \\$BREVO_API_KEY" \
+                          -H "api-key: $BREVO_API_KEY" \
                           -H "Content-Type: application/json" \
                           -d '{
-                            "sender": {"email": "${EMAIL_FROM}"},
-                            "to": [{"email": "${EMAIL_RECIPIENTS}"}],
-                            "subject": "FAILED: Jenkins Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                            "textContent": "The pipeline ${env.JOB_NAME} build #${env.BUILD_NUMBER} FAILED. Check the Jenkins console output. Build URL: ${env.BUILD_URL} Console Log: ${env.BUILD_URL}console"
+                            "sender": {"email": "'"$EMAIL_FROM"'"},
+                            "to": [{"email": "'"$EMAIL_RECIPIENTS"'"}],
+                            "subject": "FAILED: Jenkins Pipeline '"$JOB_NAME"' #'"$BUILD_NUMBER"'",
+                            "textContent": "The pipeline '"$JOB_NAME"' build #'"$BUILD_NUMBER"' FAILED. Check the Jenkins console output. Build URL: '"$BUILD_URL"' Console Log: '"$BUILD_URL"'console"
+                          }')
+
+                        echo "Brevo responded with HTTP $HTTP_CODE"
+                        cat /tmp/brevo.out || true
+                    '''
+                }
+            }
+        }
+    }
+}
+
